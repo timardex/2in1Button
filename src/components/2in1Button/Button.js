@@ -14,7 +14,7 @@ class Button extends Component {
         }
     }
     
-    handleButtonPress() {
+    handleButtonPress = () => {
         //Setting up time for video
         this.timer = setInterval(() => {
             this.setState({counter: (this.state.counter + 1)})
@@ -39,7 +39,7 @@ class Button extends Component {
         this.state.videoEffect.pause();
     }
 
-    handleButtonRelease () {
+    handleButtonRelease = () => {
         //Clear timer
         clearTimeout(this.timer);
 
@@ -52,7 +52,7 @@ class Button extends Component {
         })
 
         //if counter null than picture will be taken with a picture class
-        if(this.state.counter == null) {
+        if(this.state.counter === null) {
             this.setState({
                 buttonText: 'Picture taken',
                 inactiveClass: 'inactive', //adding inactive class for the button
@@ -91,16 +91,22 @@ class Button extends Component {
         }
     }
 
-    videoAnimation() {
+    videoAnimation = () => {
         //If counter is not null show videoAnimation function which is the circle animation
         if (this.state.counter) {
-            return <div className="video-animation" style={{height: this.state.counter + 'rem', width: this.state.counter + 'rem'}}></div>
+            return <div id="component-video-animation" className="video-animation" style={{height: this.state.counter + 'rem', width: this.state.counter + 'rem'}}></div>
+        }
+    }
+
+    counterDisplay = () => {
+        if(this.state.counter) {
+            return <span id="counter-display">{this.state.counter}</span>;
         }
     }
 
     render() {
         return(
-            <div className={"button-container " + this.state.pictureClass}>
+            <div id="component-container" className={"button-container " + this.state.pictureClass}>
                 <p>
                     Please enable sound! <br/>
                     For video recording press button and don't release it.
@@ -109,13 +115,13 @@ class Button extends Component {
 
                 {this.videoAnimation()}
 
-                <button className={this.state.inactiveClass}
-                    onTouchStart={(e) => this.handleButtonPress()} 
-                    onTouchEnd={(e) => this.handleButtonRelease()} 
-                    onMouseDown={(e) =>this.handleButtonPress()} 
-                    onMouseUp={(e) =>this.handleButtonRelease()}
+                <button id="component-button" className={this.state.inactiveClass}
+                    onTouchStart={this.handleButtonPress} 
+                    onTouchEnd={this.handleButtonRelease} 
+                    onMouseDown={this.handleButtonPress} 
+                    onMouseUp={this.handleButtonRelease}
                 >
-                    {this.state.buttonText} {this.state.counter}
+                    {this.state.buttonText} {this.counterDisplay()}
                 </button>
             </div>
         )
